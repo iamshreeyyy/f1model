@@ -1,0 +1,68 @@
+{
+  "last_updated": "2025-08-03T05:18:08.653977",
+  "drivers_championship": {
+    "year": 2024,
+    "standings": [
+      {
+        "position": 1,
+        "driver": "Max Verstappen",
+        "team": "Red Bull Racing",
+        "points": 575
+      },
+      {
+        "position": 2,
+        "driver": "Lando Norris",
+        "team": "McLaren",
+        "points": 374
+      },
+      {
+        "position": 3,
+        "driver": "Charles Leclerc",
+        "team": "Ferrari",
+        "points": 356
+      },
+      {
+        "position": 4,
+        "driver": "Oscar Piastri",
+        "team": "McLaren",
+        "points": 292
+      },
+      {
+        "position": 5,
+        "driver": "Carlos Sainz",
+        "team": "Ferrari",
+        "points": 290
+      }
+    ]
+  },
+  "constructors_championship": {
+    "year": 2024,
+    "standings": [
+      {
+        "position": 1,
+        "team": "McLaren",
+        "points": 666
+      },
+      {
+        "position": 2,
+        "team": "Ferrari",
+        "points": 652
+      },
+      {
+        "position": 3,
+        "team": "Red Bull Racing",
+        "points": 589
+      },
+      {
+        "position": 4,
+        "team": "Mercedes",
+        "points": 468
+      },
+      {
+        "position": 5,
+        "team": "Aston Martin",
+        "points": 86
+      }
+    ]
+  }
+}

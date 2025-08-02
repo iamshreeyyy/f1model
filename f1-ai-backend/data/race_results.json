@@ -1,0 +1,75 @@
+{
+  "last_updated": "2025-08-03T05:18:08.653969",
+  "races": [
+    {
+      "race_name": "Abu Dhabi Grand Prix",
+      "date": "2024-12-08",
+      "circuit": "Yas Marina Circuit",
+      "winner": "Max Verstappen",
+      "podium": [
+        "Max Verstappen",
+        "Lando Norris",
+        "Charles Leclerc"
+      ],
+      "fastest_lap": "Oscar Piastri",
+      "results": [
+        {
+          "position": 1,
+          "driver": "Max Verstappen",
+          "team": "Red Bull Racing",
+          "time": "1:26:38.736",
+          "points": 25
+        },
+        {
+          "position": 2,
+          "driver": "Lando Norris",
+          "team": "McLaren",
+          "time": "+7.456",
+          "points": 18
+        },
+        {
+          "position": 3,
+          "driver": "Charles Leclerc",
+          "team": "Ferrari",
+          "time": "+31.928",
+          "points": 15
+        }
+      ]
+    },
+    {
+      "race_name": "Las Vegas Grand Prix",
+      "date": "2024-11-24",
+      "circuit": "Las Vegas Street Circuit",
+      "winner": "George Russell",
+      "podium": [
+        "George Russell",
+        "Lewis Hamilton",
+        "Carlos Sainz"
+      ],
+      "fastest_lap": "Lando Norris",
+      "results": [
+        {
+          "position": 1,
+          "driver": "George Russell",
+          "team": "Mercedes",
+          "time": "1:22:05.969",
+          "points": 26
+        },
+        {
+          "position": 2,
+          "driver": "Lewis Hamilton",
+          "team": "Mercedes",
+          "time": "+7.313",
+          "points": 18
+        },
+        {
+          "position": 3,
+          "driver": "Carlos Sainz",
+          "team": "Ferrari",
+          "time": "+11.906",
+          "points": 15
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "last_updated": "2025-08-03T05:18:08.653982",
+  "next_race": {
+    "race_name": "Bahrain Grand Prix",
+    "date": "2025-03-02",
+    "circuit": "Bahrain International Circuit",
+    "predictions": [
+      {
+        "driver": "Max Verstappen",
+        "position": 1,
+        "confidence": 94,
+        "change": 2
+      },
+      {
+        "driver": "Lando Norris",
+        "position": 2,
+        "confidence": 87,
+        "change": -1
+      },
+      {
+        "driver": "Charles Leclerc",
+        "position": 3,
+        "confidence": 82,
+        "change": 3
+      },
+      {
+        "driver": "Oscar Piastri",
+        "position": 4,
+        "confidence": 78,
+        "change": 1
+      },
+      {
+        "driver": "Carlos Sainz",
+        "position": 5,
+        "confidence": 74,
+        "change": -2
+      },
+      {
+        "driver": "George Russell",
+        "position": 6,
+        "confidence": 71,
+        "change": 0
+      }
+    ]
+  },
+  "recent_activity": [
+    {
+      "type": "prediction",
+      "message": "Model accuracy improved to 94.2%",
+      "timestamp": "2025-08-03T03:18:08.653986"
+    },
+    {
+      "type": "training",
+      "message": "Model retrained with latest race data",
+      "timestamp": "2025-08-02T05:18:08.653994"
+    },
+    {
+      "type": "prediction",
+      "message": "Race predictions updated for Bahrain GP",
+      "timestamp": "2025-08-01T05:18:08.654000"
+    }
+  ]
+}

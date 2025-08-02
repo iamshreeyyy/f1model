@@ -1,0 +1,71 @@
+{
+  "last_updated": "2025-08-03T05:18:08.653948",
+  "drivers": [
+    {
+      "driver": "Max Verstappen",
+      "team": "Red Bull Racing",
+      "points": 575,
+      "wins": 19,
+      "podiums": 21,
+      "pole_positions": 7,
+      "fastest_laps": 5,
+      "dnfs": 1,
+      "position": 1
+    },
+    {
+      "driver": "Sergio P\u00e9rez",
+      "team": "Red Bull Racing",
+      "points": 285,
+      "wins": 2,
+      "podiums": 8,
+      "pole_positions": 1,
+      "fastest_laps": 1,
+      "dnfs": 3,
+      "position": 2
+    },
+    {
+      "driver": "Lewis Hamilton",
+      "team": "Mercedes",
+      "points": 234,
+      "wins": 1,
+      "podiums": 6,
+      "pole_positions": 2,
+      "fastest_laps": 2,
+      "dnfs": 1,
+      "position": 3
+    },
+    {
+      "driver": "Fernando Alonso",
+      "team": "Aston Martin",
+      "points": 206,
+      "wins": 0,
+      "podiums": 8,
+      "pole_positions": 0,
+      "fastest_laps": 1,
+      "dnfs": 2,
+      "position": 4
+    },
+    {
+      "driver": "Charles Leclerc",
+      "team": "Ferrari",
+      "points": 206,
+      "wins": 1,
+      "podiums": 4,
+      "pole_positions": 3,
+      "fastest_laps": 3,
+      "dnfs": 4,
+      "position": 5
+    },
+    {
+      "driver": "Lando Norris",
+      "team": "McLaren",
+      "points": 205,
+      "wins": 0,
+      "podiums": 7,
+      "pole_positions": 1,
+      "fastest_laps": 2,
+      "dnfs": 1,
+      "position": 6
+    }
+  ]
+}
