@@ -71,6 +71,8 @@ export default function ProfessionalPipeline() {
   const [selectedDriver, setSelectedDriver] = useState('Max Verstappen')
   const [selectedCircuit, setSelectedCircuit] = useState('Monaco')
   const [dataAcquisitionYears, setDataAcquisitionYears] = useState('2023,2024')
+  const [dataAcquisitionStatus, setDataAcquisitionStatus] = useState<string | null>(null)
+  const [dataAcquisitionResult, setDataAcquisitionResult] = useState<any | null>(null)
 
   const drivers = [
     'Max Verstappen', 'Lewis Hamilton', 'Charles Leclerc', 'Lando Norris',
@@ -150,6 +152,9 @@ export default function ProfessionalPipeline() {
 
   const triggerDataAcquisition = async () => {
     setLoading(true)
+    setDataAcquisitionStatus('Starting data acquisition...')
+    setDataAcquisitionResult(null)
+    
     try {
       const years = dataAcquisitionYears.split(',').map(y => parseInt(y.trim()))
       const response = await fetch('http://localhost:8000/api/professional/data/acquire', {
@@ -163,11 +168,61 @@ export default function ProfessionalPipeline() {
       
       if (response.ok) {
         const data = await response.json()
-        alert(`Data acquisition started for years: ${years.join(', ')}`)
-        setTimeout(fetchPipelineStatus, 2000) // Refresh status after 2 seconds
+        setDataAcquisitionStatus('Data acquisition in progress...')
+        
+        // Poll for completion status
+        let attempts = 0
+        const maxAttempts = 10
+        const pollStatus = async () => {
+          try {
+            const statusResponse = await fetch('http://localhost:8000/api/professional/status')
+            const statusData = await statusResponse.json()
+            const dataAcqStatus = statusData.pipeline_status.data_acquisition.status
+            
+            if (dataAcqStatus === 'completed') {
+              setDataAcquisitionStatus('✅ Data acquisition completed successfully!')
+              setDataAcquisitionResult({
+                message: 'Data successfully acquired and processed',
+                years: years,
+                lastUpdate: statusData.pipeline_status.data_acquisition.last_update,
+                status: 'success'
+              })
+              fetchPipelineStatus() // Refresh overall status
+            } else if (dataAcqStatus === 'error') {
+              setDataAcquisitionStatus('❌ Data acquisition failed')
+              setDataAcquisitionResult({
+                message: 'Failed to acquire data. Using existing data or demo data.',
+                error: statusData.pipeline_status.data_acquisition.error,
+                status: 'error'
+              })
+            } else if (attempts < maxAttempts) {
+              attempts++
+              setTimeout(pollStatus, 1000) // Poll every second
+            } else {
+              setDataAcquisitionStatus('⏱️ Data acquisition taking longer than expected')
+            }
+          } catch (error) {
+            setDataAcquisitionStatus('❌ Failed to check acquisition status')
+          }
+        }
+        
+        // Start polling after a short delay
+        setTimeout(pollStatus, 1000)
+      } else {
+        setDataAcquisitionStatus('❌ Failed to start data acquisition')
+        setDataAcquisitionResult({
+          message: 'Server responded with error',
+          status: 'error'
+        })
       }
     } catch (error) {
       console.error('Data acquisition failed:', error)
+      setDataAcquisitionStatus('❌ Connection error')
+      setDataAcquisitionResult({
+        message: 'Failed to connect to backend server',
+        error: error instanceof Error ? error.message : 'Unknown error',
+        status: 'error'
+      })
     } finally {
       setLoading(false)
     }
@@ -502,9 +557,74 @@ export default function ProfessionalPipeline() {
                   Enter years to acquire data for (e.g., 2020,2021,2022,2023,2024)
                 </p>
               </div>
+              
               <Button onClick={triggerDataAcquisition} disabled={loading} className="w-full">
                 {loading ? 'Acquiring Data...' : 'Start Data Acquisition'}
               </Button>
+              
+              {/* Status Display */}
+              {dataAcquisitionStatus && (
+                <div className="mt-4 p-3 border rounded-md">
+                  <p className="text-sm font-medium mb-2">Status:</p>
+                  <p className="text-sm">{dataAcquisitionStatus}</p>
+                </div>
+              )}
+              
+              {/* Result Display */}
+              {dataAcquisitionResult && (
+                <div className={`mt-4 p-3 border rounded-md ${
+                  dataAcquisitionResult.status === 'success' 
+                    ? 'border-green-200 bg-green-50' 
+                    : 'border-red-200 bg-red-50'
+                }`}>
+                  <p className="text-sm font-medium mb-2">Result:</p>
+                  <p className="text-sm mb-2">{dataAcquisitionResult.message}</p>
+                  
+                  {dataAcquisitionResult.years && (
+                    <p className="text-xs text-muted-foreground">
+                      Years processed: {dataAcquisitionResult.years.join(', ')}
+                    </p>
+                  )}
+                  
+                  {dataAcquisitionResult.lastUpdate && (
+                    <p className="text-xs text-muted-foreground">
+                      Last updated: {new Date(dataAcquisitionResult.lastUpdate).toLocaleString()}
+                    </p>
+                  )}
+                  
+                  {dataAcquisitionResult.error && (
+                    <p className="text-xs text-red-600 mt-1">
+                      Error: {dataAcquisitionResult.error}
+                    </p>
+                  )}
+                </div>
+              )}
+              
+              {/* Current Pipeline Status */}
+              {pipelineStatus && (
+                <div className="mt-4 p-3 border rounded-md bg-gray-50">
+                  <p className="text-sm font-medium mb-2">Current Pipeline Status:</p>
+                  <div className="text-xs space-y-1">
+                    <div className="flex justify-between">
+                      <span>Data Acquisition:</span>
+                      <span className={`font-medium ${
+                        pipelineStatus.pipeline_status.data_acquisition.status === 'completed' 
+                          ? 'text-green-600' 
+                          : pipelineStatus.pipeline_status.data_acquisition.status === 'error'
+                          ? 'text-red-600'
+                          : 'text-yellow-600'
+                      }`}>
+                        {pipelineStatus.pipeline_status.data_acquisition.status}
+                      </span>
+                    </div>
+                    {pipelineStatus.pipeline_status.data_acquisition.last_update && (
+                      <div className="text-xs text-muted-foreground">
+                        Last update: {new Date(pipelineStatus.pipeline_status.data_acquisition.last_update).toLocaleString()}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
