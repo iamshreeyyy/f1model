@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, Car, Flag, Home, Settings, TrendingUp, Trophy, Zap } from "lucide-react"
+import { BarChart3, Car, Flag, Home, Settings, TrendingUp, Trophy, Zap, Database, Cpu } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -49,6 +49,11 @@ const menuItems = [
     title: "Enhanced AI",
     url: "/enhanced-predictions",
     icon: Zap,
+  },
+  {
+    title: "Professional ML",
+    url: "/professional",
+    icon: Cpu,
   },
 ]
 

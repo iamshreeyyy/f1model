@@ -1,0 +1,11 @@
+{
+  "last_update": "2025-08-03T12:53:55.168348",
+  "update_frequency_days": 7,
+  "auto_retrain": true,
+  "retrain_threshold_races": 3,
+  "monitoring_enabled": true,
+  "data_sources": {
+    "ergast_api": "http://ergast.com/api/f1",
+    "backup_enabled": true
+  }
+}

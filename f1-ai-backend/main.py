@@ -10,8 +10,19 @@ import asyncio
 import aiofiles
 from model import F1PredictionModel
 
+# Import professional pipeline components
+try:
+    from data_acquisition import F1DataAcquisition
+    from feature_engineering import F1FeatureEngineering
+    from ml_pipeline import F1MLPipeline
+    from continuous_update import F1ContinuousUpdate
+    from decision_support import F1DecisionSupport
+    from enhanced_f1_models import EnhancedF1PredictionModels as EnhancedF1Models
+except ImportError as e:
+    print(f"Warning: Professional pipeline components not available: {e}")
+
 # Initialize FastAPI app
-app = FastAPI(title="F1 AI Prediction API", version="1.0.0")
+app = FastAPI(title="F1 AI Prediction API - Professional Edition", version="2.0.0")
 
 # Add CORS middleware
 app.add_middleware(
@@ -31,8 +42,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize ML model
+# Initialize ML model and professional pipeline components
 ml_model = F1PredictionModel()
+
+# Initialize professional pipeline components if available
+try:
+    data_acquisition = F1DataAcquisition()
+    feature_engineering = F1FeatureEngineering()
+    ml_pipeline = F1MLPipeline()
+    continuous_update = F1ContinuousUpdate()
+    decision_support = F1DecisionSupport()
+    enhanced_models = EnhancedF1Models()
+    PROFESSIONAL_PIPELINE_AVAILABLE = True
+except:
+    PROFESSIONAL_PIPELINE_AVAILABLE = False
+    print("Professional pipeline components not available - running in basic mode")
 
 # Data storage paths
 DATA_DIR = "data"
@@ -40,6 +64,14 @@ PREDICTIONS_FILE = f"{DATA_DIR}/predictions.json"
 RACE_RESULTS_FILE = f"{DATA_DIR}/race_results.json"
 DRIVER_STATS_FILE = f"{DATA_DIR}/driver_stats.json"
 CHAMPIONSHIPS_FILE = f"{DATA_DIR}/championships.json"
+
+# Professional pipeline status tracking
+pipeline_status = {
+    "data_acquisition": {"status": "ready", "last_update": None},
+    "feature_engineering": {"status": "ready", "last_update": None},
+    "model_training": {"status": "ready", "last_update": None},
+    "continuous_update": {"status": "ready", "last_update": None}
+}
 
 # Ensure data directory exists
 os.makedirs(DATA_DIR, exist_ok=True)
@@ -555,13 +587,184 @@ async def retrain_model(background_tasks: BackgroundTasks):
     background_tasks.add_task(train_model_background)
     return {"message": "Model retraining started", "status": "in_progress"}
 
+# Professional Pipeline Endpoints
+@app.get("/api/professional/status")
+async def get_professional_pipeline_status():
+    """Get professional pipeline status"""
+    if not PROFESSIONAL_PIPELINE_AVAILABLE:
+        return {"error": "Professional pipeline not available", "basic_mode": True}
+    
+    return {
+        "pipeline_status": pipeline_status,
+        "timestamp": datetime.now().isoformat(),
+        "professional_features_available": True
+    }
+
+class DataAcquisitionRequest(BaseModel):
+    years: List[int]
+    force_refresh: bool = False
+
+@app.post("/api/professional/data/acquire")
+async def acquire_professional_data(request: DataAcquisitionRequest, background_tasks: BackgroundTasks):
+    """Acquire F1 data using professional pipeline"""
+    if not PROFESSIONAL_PIPELINE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Professional pipeline not available")
+    
+    try:
+        pipeline_status["data_acquisition"]["status"] = "running"
+        
+        def run_acquisition():
+            try:
+                consolidated_data = data_acquisition.acquire_multi_year_data(
+                    years=request.years,
+                    force_refresh=request.force_refresh
+                )
+                pipeline_status["data_acquisition"]["status"] = "completed"
+                pipeline_status["data_acquisition"]["last_update"] = datetime.now().isoformat()
+                return consolidated_data
+            except Exception as e:
+                pipeline_status["data_acquisition"]["status"] = "error"
+                pipeline_status["data_acquisition"]["error"] = str(e)
+        
+        background_tasks.add_task(run_acquisition)
+        
+        return {
+            "message": "Professional data acquisition started",
+            "years": request.years,
+            "status": "running"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Data acquisition failed: {str(e)}")
+
+class StrategyRequest(BaseModel):
+    driver: str
+    circuit: str
+    weather_forecast: Dict[str, Any]
+    race_predictions: List[Dict[str, Any]]
+
+@app.post("/api/professional/strategy/analyze")
+async def analyze_professional_strategy(request: StrategyRequest):
+    """Generate professional race strategy analysis"""
+    if not PROFESSIONAL_PIPELINE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Professional pipeline not available")
+    
+    try:
+        # Create mock historical data for demonstration
+        import pandas as pd
+        historical_data = pd.DataFrame({
+            'driver': [request.driver] * 5,
+            'circuit_name': [request.circuit.lower()] * 5,
+            'finishing_position': [3, 5, 2, 4, 1],
+            'grid_position': [2, 4, 1, 3, 2]
+        })
+        
+        strategy_report = decision_support.generate_race_strategy_report(
+            driver=request.driver,
+            circuit=request.circuit,
+            race_predictions=request.race_predictions,
+            weather_forecast=request.weather_forecast,
+            historical_data=historical_data
+        )
+        
+        return strategy_report
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Strategy analysis failed: {str(e)}")
+
+@app.get("/api/professional/strategy/pit-optimization/{circuit}")
+async def get_professional_pit_optimization(circuit: str, track_temp: float = 35, rain_prob: float = 0):
+    """Get professional pit stop optimization"""
+    if not PROFESSIONAL_PIPELINE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Professional pipeline not available")
+    
+    try:
+        race_predictions = [
+            {'driver': 'Max Verstappen', 'predicted_position': 1},
+            {'driver': 'Lando Norris', 'predicted_position': 2},
+            {'driver': 'Charles Leclerc', 'predicted_position': 3}
+        ]
+        
+        weather_conditions = {
+            'track_temperature': track_temp,
+            'rain_probability': rain_prob
+        }
+        
+        pit_strategy = decision_support.predict_pit_window_optimization(
+            race_predictions=race_predictions,
+            circuit=circuit,
+            weather_conditions=weather_conditions
+        )
+        
+        return pit_strategy
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Pit optimization failed: {str(e)}")
+
+class ProfessionalPredictionRequest(BaseModel):
+    race_data: Dict[str, Any]
+    weather: Dict[str, Any]
+    use_enhanced_models: bool = True
+
+@app.post("/api/professional/predictions")
+async def get_professional_predictions(request: ProfessionalPredictionRequest):
+    """Get predictions using professional ML pipeline"""
+    if not PROFESSIONAL_PIPELINE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Professional pipeline not available")
+    
+    try:
+        if request.use_enhanced_models:
+            prediction_result = enhanced_models.predict_race_outcome(
+                race_data=request.race_data,
+                weather_conditions=request.weather
+            )
+        else:
+            prediction_result = ml_model.predict_race_positions(
+                race_data=request.race_data,
+                weather=request.weather
+            )
+        
+        return {
+            "predictions": prediction_result,
+            "model_type": "enhanced" if request.use_enhanced_models else "standard",
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Professional prediction failed: {str(e)}")
+
+@app.post("/api/professional/continuous/update")
+async def trigger_professional_update(background_tasks: BackgroundTasks):
+    """Trigger professional continuous update process"""
+    if not PROFESSIONAL_PIPELINE_AVAILABLE:
+        raise HTTPException(status_code=503, detail="Professional pipeline not available")
+    
+    try:
+        pipeline_status["continuous_update"]["status"] = "running"
+        
+        def run_continuous_update():
+            try:
+                update_results = continuous_update.run_update_cycle()
+                pipeline_status["continuous_update"]["status"] = "completed"
+                pipeline_status["continuous_update"]["last_update"] = datetime.now().isoformat()
+                return update_results
+            except Exception as e:
+                pipeline_status["continuous_update"]["status"] = "error"
+                pipeline_status["continuous_update"]["error"] = str(e)
+        
+        background_tasks.add_task(run_continuous_update)
+        
+        return {
+            "message": "Professional continuous update started",
+            "status": "running"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Continuous update failed: {str(e)}")
+
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "model_loaded": len(ml_model.models) > 0
+        "model_loaded": len(ml_model.models) > 0,
+        "professional_pipeline_available": PROFESSIONAL_PIPELINE_AVAILABLE
     }
 
 # Error handlers

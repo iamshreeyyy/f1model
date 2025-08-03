@@ -1,0 +1,81 @@
+season,round,grand_prix,driver,constructor,grid_position,finishing_position,status,points,fastest_lap,time,laps
+2023,1,Monaco,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2023,1,Monaco,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2023,1,Monaco,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2023,1,Monaco,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2023,1,Monaco,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2023,1,Monaco,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2023,1,Monaco,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2023,1,Monaco,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2023,2,Silverstone,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2023,2,Silverstone,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2023,2,Silverstone,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2023,2,Silverstone,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2023,2,Silverstone,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2023,2,Silverstone,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2023,2,Silverstone,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2023,2,Silverstone,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2023,3,Monza,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2023,3,Monza,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2023,3,Monza,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2023,3,Monza,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2023,3,Monza,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2023,3,Monza,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2023,3,Monza,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2023,3,Monza,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2023,4,Spa-Francorchamps,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2023,4,Spa-Francorchamps,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2023,4,Spa-Francorchamps,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2023,4,Spa-Francorchamps,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2023,4,Spa-Francorchamps,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2023,4,Spa-Francorchamps,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2023,4,Spa-Francorchamps,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2023,4,Spa-Francorchamps,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2023,5,Suzuka,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2023,5,Suzuka,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2023,5,Suzuka,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2023,5,Suzuka,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2023,5,Suzuka,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2023,5,Suzuka,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2023,5,Suzuka,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2023,5,Suzuka,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2024,1,Monaco,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2024,1,Monaco,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2024,1,Monaco,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2024,1,Monaco,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2024,1,Monaco,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2024,1,Monaco,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2024,1,Monaco,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2024,1,Monaco,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2024,2,Silverstone,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2024,2,Silverstone,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2024,2,Silverstone,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2024,2,Silverstone,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2024,2,Silverstone,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2024,2,Silverstone,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2024,2,Silverstone,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2024,2,Silverstone,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2024,3,Monza,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2024,3,Monza,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2024,3,Monza,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2024,3,Monza,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2024,3,Monza,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2024,3,Monza,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2024,3,Monza,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2024,3,Monza,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2024,4,Spa-Francorchamps,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2024,4,Spa-Francorchamps,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2024,4,Spa-Francorchamps,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2024,4,Spa-Francorchamps,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2024,4,Spa-Francorchamps,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2024,4,Spa-Francorchamps,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2024,4,Spa-Francorchamps,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2024,4,Spa-Francorchamps,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67
+2024,5,Suzuka,Max Verstappen,Ferrari,1,2,Finished,25,True,1:56:21.101,69
+2024,5,Suzuka,Charles Leclerc,McLaren,2,4,Finished,22,False,1:57:22.102,68
+2024,5,Suzuka,Lando Norris,Mercedes,3,3,Finished,19,False,1:58:23.103,67
+2024,5,Suzuka,George Russell,Aston Martin,4,5,Finished,16,False,1:59:24.104,66
+2024,5,Suzuka,Carlos Sainz,Alpine,5,7,Finished,13,False,1:60:25.105,70
+2024,5,Suzuka,Lewis Hamilton,Red Bull,6,6,Finished,10,False,1:61:26.106,69
+2024,5,Suzuka,Sergio Perez,Ferrari,7,8,DNF,7,False,1:62:27.107,68
+2024,5,Suzuka,Fernando Alonso,McLaren,8,10,DNF,4,False,1:63:28.108,67

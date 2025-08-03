@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { ModelStats } from "@/components/model-stats"
 import { RacePredictions } from "@/components/race-predictions"
 import { RecentActivity } from "@/components/recent-activity"
+import { ProfessionalOverview } from "@/components/professional-overview"
 import { Separator } from "@/components/ui/separator"
 
 export default function Dashboard() {
@@ -36,8 +37,9 @@ export default function Dashboard() {
                 <div className="lg:col-span-2">
                   <RacePredictions />
                 </div>
-                <div>
+                <div className="space-y-6">
                   <RecentActivity />
+                  <ProfessionalOverview />
                 </div>
               </div>
             </div>

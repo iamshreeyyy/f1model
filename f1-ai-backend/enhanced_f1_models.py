@@ -397,3 +397,6 @@ def example_usage():
 
 if __name__ == "__main__":
     example_usage()
+
+# Alias for backward compatibility
+EnhancedF1Models = EnhancedF1PredictionModels
