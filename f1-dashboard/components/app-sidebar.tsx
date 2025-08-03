@@ -45,6 +45,11 @@ const menuItems = [
     url: "/analytics",
     icon: BarChart3,
   },
+  {
+    title: "Enhanced AI",
+    url: "/enhanced-predictions",
+    icon: Zap,
+  },
 ]
 
 export function AppSidebar() {

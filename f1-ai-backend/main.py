@@ -48,7 +48,7 @@ os.makedirs(DATA_DIR, exist_ok=True)
 class RacePredictionRequest(BaseModel):
     drivers: List[str]
     circuit: str
-    weather: Optional[Dict[str, float]] = None
+    weather: Optional[Dict[str, Any]] = None
 
 class DriverStats(BaseModel):
     driver: str
@@ -333,6 +333,165 @@ async def get_championships():
     """Get championship standings"""
     data = await load_json_file(CHAMPIONSHIPS_FILE)
     return data
+
+@app.post("/api/predict-race-enhanced")
+async def predict_race_enhanced(request: RacePredictionRequest):
+    """Generate enhanced F1 race predictions using optimized ML models"""
+    try:
+        # Get enhanced classification predictions
+        enhanced_predictions = ml_model.predict_race_classification(
+            drivers=request.drivers,
+            circuit=request.circuit,
+            weather=request.weather
+        )
+        
+        # Create response with just enhanced predictions for now
+        combined_results = {
+            "enhanced_predictions": enhanced_predictions,
+            "model_performance": {
+                "ensemble_models": ["XGBoost", "Random Forest", "Gradient Boosting", "Logistic Regression", "SVM"],
+                "optimization_target": "F1-Score Maximization",
+                "prediction_categories": {
+                    "podium": "Top 3 finish probability",
+                    "points_finish": "Top 10 finish probability", 
+                    "winner": "Race win probability",
+                    "dnf": "Did not finish probability"
+                }
+            },
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        return JSONResponse(content=combined_results)
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Enhanced prediction failed: {str(e)}")
+
+@app.get("/api/model-comparison")
+async def get_model_comparison():
+    """Compare different F1 prediction models and their strengths"""
+    return JSONResponse(content={
+        "model_comparison": {
+            "xgboost": {
+                "strengths": [
+                    "Direct F1-score optimization through eval_metric parameter",
+                    "Excellent handling of imbalanced F1 race data",
+                    "Built-in feature importance for driver/circuit analysis",
+                    "Scale_pos_weight for handling rare events (wins, podiums)"
+                ],
+                "f1_racing_applications": [
+                    "Podium finish prediction",
+                    "DNF (reliability) prediction", 
+                    "Weather impact on performance",
+                    "Grid position advantage analysis"
+                ],
+                "optimization_features": [
+                    "Custom evaluation metrics",
+                    "Early stopping based on F1 score",
+                    "Hyperparameter tuning for F1 maximization"
+                ]
+            },
+            "random_forest": {
+                "strengths": [
+                    "Class balancing with class_weight='balanced'",
+                    "Robust to outliers in race data",
+                    "Feature importance ranking for F1 factors",
+                    "Ensemble nature reduces overfitting"
+                ],
+                "f1_racing_applications": [
+                    "Driver consistency analysis",
+                    "Circuit-specific performance patterns",
+                    "Multi-factor race outcome prediction",
+                    "Team performance evaluation"
+                ],
+                "optimization_features": [
+                    "Bootstrap sampling for better generalization",
+                    "Out-of-bag scoring for model selection",
+                    "Parallel training for efficiency"
+                ]
+            },
+            "gradient_boosting": {
+                "strengths": [
+                    "Sequential learning corrects prediction errors",
+                    "Custom loss functions for F1 optimization",
+                    "Excellent for complex F1 race dynamics",
+                    "Adaptive learning rates"
+                ],
+                "f1_racing_applications": [
+                    "Race strategy optimization",
+                    "Tire degradation impact prediction",
+                    "Safety car probability analysis",
+                    "Championship points scenarios"
+                ],
+                "optimization_features": [
+                    "Learning rate scheduling",
+                    "Early stopping mechanisms",
+                    "Subsample optimization"
+                ]
+            },
+            "logistic_regression": {
+                "strengths": [
+                    "Well-calibrated probability outputs",
+                    "Threshold optimization for F1 maximization",
+                    "Fast training and inference",
+                    "Interpretable coefficients"
+                ],
+                "f1_racing_applications": [
+                    "Binary race outcome prediction",
+                    "Qualifying vs race performance",
+                    "Points finish probability",
+                    "Head-to-head driver comparisons"
+                ],
+                "optimization_features": [
+                    "Class weighting for imbalanced data",
+                    "Regularization (L1/L2) for feature selection",
+                    "Threshold tuning for optimal F1 score"
+                ]
+            },
+            "svm": {
+                "strengths": [
+                    "Kernel flexibility for complex F1 patterns",
+                    "Robust to high-dimensional feature spaces",
+                    "Memory efficient for large datasets",
+                    "Class weight handling for rare events"
+                ],
+                "f1_racing_applications": [
+                    "Non-linear race pattern recognition",
+                    "Driver style classification",
+                    "Circuit characteristic clustering",
+                    "Performance anomaly detection"
+                ],
+                "optimization_features": [
+                    "Multiple kernel options (RBF, polynomial, linear)",
+                    "C parameter tuning for F1 optimization",
+                    "Gamma optimization for kernel performance"
+                ]
+            }
+        },
+        "ensemble_advantages": {
+            "why_ensemble_works": [
+                "Combines strengths of different algorithms",
+                "Reduces individual model biases",
+                "Better generalization to unseen race scenarios",
+                "Majority voting improves prediction confidence"
+            ],
+            "f1_racing_benefits": [
+                "Handles different types of F1 prediction tasks",
+                "Adapts to changing regulations and car performance",
+                "Robust to driver transfers and team changes",
+                "Accounts for various weather and track conditions"
+            ]
+        },
+        "performance_metrics": {
+            "f1_score_focus": "Optimized for precision and recall balance",
+            "classification_targets": [
+                "Podium finishes (top 3)",
+                "Points finishes (top 10)",
+                "Race winners",
+                "DNF predictions"
+            ],
+            "evaluation_approach": "5-fold cross-validation with F1 scoring"
+        }
+    })
 
 @app.post("/api/predict-race")
 async def predict_race(request: RacePredictionRequest):

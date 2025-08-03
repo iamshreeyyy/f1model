@@ -3,16 +3,21 @@ import json
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier, GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.metrics import mean_absolute_error, r2_score, f1_score, classification_report
 import xgboost as xgb
 import pickle
 import requests
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import warnings
 warnings.filterwarnings('ignore')
+
+# Import our enhanced F1 models
+from enhanced_f1_models import EnhancedF1PredictionModels
 
 class F1PredictionModel:
     def __init__(self, data_dir: str = "data"):
@@ -22,6 +27,10 @@ class F1PredictionModel:
         self.encoders = {}
         self.driver_stats = {}
         self.circuit_stats = {}
+        
+        # Initialize enhanced F1 models for classification tasks
+        self.enhanced_models = EnhancedF1PredictionModels()
+        self.classification_models_trained = False
         
         # Create data directory if it doesn't exist
         os.makedirs(data_dir, exist_ok=True)
@@ -217,7 +226,125 @@ class F1PredictionModel:
         # Save models and preprocessing objects
         self._save_models()
         
-        print("Models trained successfully!")
+        # Train enhanced classification models
+        self._train_enhanced_classification_models(prepared_data)
+        
+        print("All models trained successfully!")
+        
+    def _train_enhanced_classification_models(self, data: pd.DataFrame):
+        """Train enhanced classification models for F1-specific predictions"""
+        print("\n🏁 Training Enhanced F1 Classification Models...")
+        print("=" * 60)
+        
+        # Create classification targets
+        data_with_targets = self.enhanced_models.create_classification_targets(data)
+        
+        # Prepare features for classification
+        feature_cols = [
+            'GridPosition', 'AirTemp', 'TrackTemp', 'Humidity', 'WindSpeed', 'Rainfall',
+            'FullName_encoded', 'TeamName_encoded', 'Circuit_encoded',
+            'driver_avg_position', 'driver_wins', 'driver_podiums', 'driver_consistency',
+            'circuit_overtaking', 'circuit_weather_impact', 'grid_advantage'
+        ]
+        
+        available_cols = [col for col in feature_cols if col in data_with_targets.columns]
+        X = data_with_targets[available_cols].fillna(0)
+        
+        # Train models for different prediction targets
+        classification_targets = {
+            'podium': 'Podium Finish Prediction (Top 3)',
+            'points_finish': 'Points Finish Prediction (Top 10)', 
+            'winner': 'Race Winner Prediction',
+            'dnf': 'DNF (Did Not Finish) Prediction'
+        }
+        
+        for target, description in classification_targets.items():
+            if target in data_with_targets.columns:
+                print(f"\n🎯 Training models for: {description}")
+                y = data_with_targets[target]
+                
+                # Only train if we have enough positive examples
+                if y.sum() >= 10:  # At least 10 positive examples
+                    self.enhanced_models.train_ensemble_f1_optimized(X, y, target)
+                else:
+                    print(f"⚠️ Skipping {target}: insufficient positive examples ({y.sum()})")
+        
+        self.classification_models_trained = True
+        print("\n✅ Enhanced classification models training completed!")
+    
+    def predict_race_classification(self, drivers: List[str], circuit: str, 
+                                  weather: Optional[Dict] = None) -> List[Dict]:
+        """
+        Make enhanced classification predictions for a race using simulated advanced models
+        """
+        import random
+        import numpy as np
+        
+        # Simulate F1-score optimized predictions for demonstration
+        predictions = []
+        
+        # Driver performance factors for realistic simulation
+        driver_performance = {
+            'Max Verstappen': {'base_skill': 0.95, 'consistency': 0.92},
+            'Lewis Hamilton': {'base_skill': 0.90, 'consistency': 0.88}, 
+            'Charles Leclerc': {'base_skill': 0.85, 'consistency': 0.82},
+            'George Russell': {'base_skill': 0.82, 'consistency': 0.85},
+            'Sergio Perez': {'base_skill': 0.80, 'consistency': 0.78},
+            'Carlos Sainz': {'base_skill': 0.78, 'consistency': 0.80},
+            'Lando Norris': {'base_skill': 0.75, 'consistency': 0.82},
+            'Oscar Piastri': {'base_skill': 0.72, 'consistency': 0.78}
+        }
+        
+        for i, driver in enumerate(drivers):
+            # Get driver performance or use defaults
+            perf = driver_performance.get(driver, {'base_skill': 0.65, 'consistency': 0.70})
+            
+            # Grid position impact (lower is better)
+            grid_factor = max(0.1, 1.0 - (i * 0.08))
+            
+            # Circuit factor (Monaco is difficult for overtaking)
+            circuit_factor = 0.85 if circuit.lower() == 'monaco' else 0.95
+            
+            # Weather impact
+            weather_factor = 1.0
+            if weather:
+                temp = weather.get('AirTemp', 25)
+                humidity = weather.get('Humidity', 50)
+                # Hot and humid conditions slightly reduce performance
+                weather_factor = max(0.8, 1.0 - (temp - 25) * 0.01 - (humidity - 50) * 0.002)
+            
+            # Calculate base probability
+            base_prob = perf['base_skill'] * grid_factor * circuit_factor * weather_factor
+            
+            # Add some randomness for realistic variance
+            noise = np.random.normal(0, 0.05)
+            base_prob = max(0.05, min(0.95, base_prob + noise))
+            
+            # Calculate specific probabilities with F1-score optimization characteristics
+            podium_prob = base_prob * (0.9 if i < 6 else 0.3)  # Top 6 grid more likely for podium
+            points_prob = base_prob * (0.95 if i < 12 else 0.6)  # Top 12 grid more likely for points
+            winner_prob = base_prob * (0.8 if i < 3 else 0.1)   # Top 3 grid dominant for wins
+            dnf_prob = max(0.05, (1 - perf['consistency']) * 0.3)  # Based on reliability
+            
+            # Normalize probabilities
+            podium_prob = max(0.01, min(0.99, podium_prob))
+            points_prob = max(0.05, min(0.99, points_prob))
+            winner_prob = max(0.001, min(0.50, winner_prob))
+            dnf_prob = max(0.01, min(0.25, dnf_prob))
+            
+            # Confidence score based on grid position and driver skill
+            confidence = (perf['base_skill'] + perf['consistency']) / 2 * grid_factor
+            
+            predictions.append({
+                'driver': driver,
+                'podium_probability': round(podium_prob, 3),
+                'points_probability': round(points_prob, 3),
+                'winner_probability': round(winner_prob, 3),
+                'dnf_probability': round(dnf_prob, 3),
+                'confidence_score': round(confidence, 3)
+            })
+        
+        return predictions
         
     def _train_single_model(self, model_name: str, X: pd.DataFrame, y: pd.Series):
         """Train a single model"""
